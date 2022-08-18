@@ -2,8 +2,18 @@ import React, { useContext } from 'react';
 import myContext from '../context/myContext';
 
 function Table() {
-  const { planets } = useContext(myContext);
-  console.log(planets);
+  const { planets, filterByName, planetFilters } = useContext(myContext);
+  const { name } = filterByName;
+
+  function filterPlanets() {
+    if (name.length !== 0) {
+      return planets.filter((planet) => (planet
+        .name).toLowerCase().search(name.toLowerCase()) !== Number('-1'));
+    } if (planetFilters.length !== 0) {
+      return planetFilters;
+    }
+    return planets;
+  }
 
   return (
     <table>
@@ -26,7 +36,7 @@ function Table() {
       </thead>
       <tbody>
         {
-          planets.map((planet) => (
+          filterPlanets().map((planet) => (
             <tr key={ planet.id }>
               <td>{planet.name}</td>
               <td>{planet.rotation_period}</td>

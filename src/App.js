@@ -1,10 +1,14 @@
 import React from 'react';
 import Table from './component/Table';
 import './App.css';
+import SearchInput from './component/SearchInput';
 
 function App() {
   return (
-    <Table />
+    <div>
+      <SearchInput />
+      <Table />
+    </div>
   );
 }
 
