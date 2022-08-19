@@ -2,9 +2,11 @@ import React, { useContext } from 'react';
 import myContext from '../context/myContext';
 
 function SearchInput() {
-  const { filterByName, setFilterText,
+  const { planets, setPlanetFilters,
+    filterByName, setFilterText,
     selecteds, setSelecteds,
-    filterNumber, setFilterNumber } = useContext(myContext);
+    filterNumber, setFilterNumber,
+    filter, setFilter } = useContext(myContext);
 
   function handleChange({ target }) {
     const { name, value } = target;
@@ -18,11 +20,25 @@ function SearchInput() {
 
   function handleClick() {
     setFilterNumber([...filterNumber, selecteds]);
+    setFilter(filter.filter((columns) => columns !== selecteds.column));
     setSelecteds({
-      column: 'population',
+      column: filter[0],
       operator: 'maior que',
       value: '0',
     });
+  }
+
+  function handleRemoveFilter(e) {
+    setFilter([...filter, e.column]);
+    setFilterNumber(filterNumber.filter((filters) => filters.column !== e.column));
+    setPlanetFilters(planets);
+  }
+
+  function handleRemoveAllFilters() {
+    setFilter(['population', 'orbital_period', 'diameter',
+      'rotation_period', 'surface_water']);
+    setFilterNumber([]);
+    setPlanetFilters([]);
   }
 
   const { name } = filterByName;
@@ -54,11 +70,12 @@ function SearchInput() {
             onChange={ handleFilters }
             data-testid="column-filter"
           >
-            <option value="population">population</option>
-            <option value="orbital_period">orbital_period</option>
-            <option value="diameter">diameter</option>
-            <option value="rotation_period">rotation_period</option>
-            <option value="surface_water">surface_water</option>
+            {
+              filter.map((options) => (
+                <option key={ options } value={ options }>{options}</option>
+              ))
+            }
+
           </select>
         </label>
 
@@ -97,7 +114,37 @@ function SearchInput() {
         >
           Filter
         </button>
+
+        <section>
+          <button
+            type="button"
+            data-testid="button-remove-filters"
+            onClick={ handleRemoveAllFilters }
+          >
+            Delete All Filters
+          </button>
+        </section>
+
       </form>
+
+      <div>
+        {
+          filterNumber.map((filtered) => (
+            <div
+              key={ filtered.column }
+              data-testid="filter"
+            >
+              <span>{filtered.column}</span>
+              <span>{filtered.operator}</span>
+              <span>{filtered.value}</span>
+
+              <button type="button" onClick={ () => { handleRemoveFilter(filtered); } }>
+                X
+              </button>
+            </div>
+          ))
+        }
+      </div>
     </div>
   );
 }

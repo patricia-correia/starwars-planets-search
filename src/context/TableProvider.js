@@ -15,6 +15,9 @@ function TableProvider({ children }) {
 
   const [planetFilters, setPlanetFilters] = useState([]);
 
+  const [filter, setFilter] = useState(['population', 'orbital_period', 'diameter',
+    'rotation_period', 'surface_water']);
+
   const URL = 'https://swapi-trybe.herokuapp.com/api/planets/';
   useEffect(() => {
     const fetchTable = async () => {
@@ -40,13 +43,14 @@ function TableProvider({ children }) {
           .filter((planet) => planet[column] === value));
       }
     });
-  }, [filterNumber]);
+  }, [filterNumber, filter]);
 
   return (
 
     <myContext.Provider
       value={ {
         planets,
+        setPlanetFilters,
         filterByName,
         setFilterText,
         selecteds,
@@ -54,6 +58,8 @@ function TableProvider({ children }) {
         filterNumber,
         setFilterNumber,
         planetFilters,
+        filter,
+        setFilter,
       } }
     >
       { children }
