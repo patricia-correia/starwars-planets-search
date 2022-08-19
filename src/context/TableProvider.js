@@ -20,6 +20,7 @@ function TableProvider({ children }) {
     const fetchTable = async () => {
       const require = await fetch(URL);
       const result = await require.json();
+      setPlanets(result.results);
       setPlanetFilters(result.results);
     };
     fetchTable();
@@ -45,7 +46,6 @@ function TableProvider({ children }) {
 
     <myContext.Provider
       value={ {
-        setPlanets,
         planets,
         filterByName,
         setFilterText,
