@@ -2,13 +2,14 @@ import React from 'react';
 import Table from './component/Table';
 import './App.css';
 import SearchInput from './component/SearchInput';
+import TableProvider from './context/TableProvider';
 
 function App() {
   return (
-    <div>
+    <TableProvider>
       <SearchInput />
       <Table />
-    </div>
+    </TableProvider>
   );
 }
 
