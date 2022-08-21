@@ -43,7 +43,7 @@ function TableProvider({ children }) {
           .filter((planet) => planet[column] === value));
       }
     });
-  }, [filterNumber, filter]);
+  }, [filter, filterNumber]);
 
   return (
 
